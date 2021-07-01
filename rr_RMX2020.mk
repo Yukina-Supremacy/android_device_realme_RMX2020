@@ -33,6 +33,11 @@ PRODUCT_MANUFACTURER := realme
 
 TARGET_BOOT_ANIMATION_RES := 720
 
+# RR Wallpapers
+BUILD_RR_WALLPAPERS := true
+
+$(call inherit-product, vendor/rr/config/data_only.mk)
+
 # Build info
 BUILD_FINGERPRINT := "google/redfin/redfin:11/RQ3A.210705.001/7380771:user/release-keys"
 PRODUCT_BUILD_PROP_OVERRIDES += \

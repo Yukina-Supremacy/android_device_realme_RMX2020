@@ -20,10 +20,12 @@ DEVICE_PATH := device/realme/RMX2020
 $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
 # Call proprietary blob setup
-$(call inherit-product-if-exists, vendor/realme/RMX2020/RMX2020-vendor.mk)
+$(call inherit-product, vendor/realme/RMX2020/RMX2020-vendor.mk)
 
 # Setup dalvik vm configs
 $(call inherit-product, frameworks/native/build/phone-xhdpi-4096-dalvik-heap.mk)
+
+$(call inherit-product, vendor/gapps/config.mk)
 
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
@@ -119,7 +121,8 @@ PRODUCT_PACKAGES += \
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(DEVICE_PATH)/overlay
+    $(DEVICE_PATH)/overlay \
+    $(DEVICE_PATH)/overlay-remove
 
 PRODUCT_PACKAGES += \
     NotchBarKiller
