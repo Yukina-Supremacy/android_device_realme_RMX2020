@@ -38,6 +38,24 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
 
+# Audio
+USE_XML_AUDIO_POLICY_CONF := 1
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth/include
+
+# Charger
+BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# Display
+TARGET_USES_HWC2 := true
+
+# DRM
+TARGET_ENABLE_MEDIADRM_64 := true
+
+# Inherit from the proprietary version
+-include vendor/realme/RMX2020/BoardConfigVendor.mk
+
 # Android Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
@@ -96,12 +114,8 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 # Partitions
 
-ifeq ($(WITH_GMS), true)
-BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 836870912
-else
-BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 536870912
-endif
 
+BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 836870912
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
 BOARD_CACHEIMAGE_PARTITION_SIZE := 452984832
@@ -142,7 +156,7 @@ BOARD_PLAT_PRIVATE_SEPOLICY_DIR := $(DEVICE_PATH)/sepolicy/private
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # Symbols
-TARGET_LD_SHIM_LIBS := /system/lib/libshowlogo.so|libshim_showlogo.so
+#TARGET_LD_SHIM_LIBS := /system/lib/libshowlogo.so|libshim_showlogo.so
 
 # Treble
 TARGET_COPY_OUT_PRODUCT := system/product

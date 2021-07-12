@@ -22,16 +22,22 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 # Call proprietary blob setup
 $(call inherit-product-if-exists, vendor/realme/RMX2020/RMX2020-vendor.mk)
 
+# Setup dalvik vm configs
+$(call inherit-product, frameworks/native/build/phone-xhdpi-4096-dalvik-heap.mk)
+
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Parts
-$(call inherit-product-if-exists, packages/apps/RealmeParts/parts.mk)
+#$(call inherit-product-if-exists, packages/apps/RealmeParts/parts.mk)
 
 PRODUCT_SHIPPING_API_LEVEL := 29
-
+PRODUCT_TARGET_VNDK_VERSION := 29
 # VNDK
-PRODUCT_EXTRA_VNDK_VERSIONS := 29
+#PRODUCT_EXTRA_VNDK_VERSIONS := 29
+
+# A/B
+AB_OTA_UPDATER := false
 
 # Dynamic Partition
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -44,7 +50,13 @@ TARGET_SCREEN_WIDTH := 720
 # Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
-    GoogleCameraGo
+    GoogleCameraGo \
+    libaacwrapper
+
+# HIDL
+PRODUCT_PACKAGES += \
+    android.hidl.base@1.0_system \
+    android.hidl.manager@1.0_system
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/audio/audio_policy_configuration.xml:system/etc/audio_policy_configuration.xml \
@@ -71,11 +83,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libhidltransport \
     libhwbinder
-
-# IMS
-PRODUCT_PACKAGES += \
-    mtk-ims \
-    mtk-ims-telephony
 
 # ImsInit hack
 PRODUCT_PACKAGES += \
@@ -119,7 +126,6 @@ PRODUCT_PACKAGES += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.controls.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.software.controls.xml \
     $(DEVICE_PATH)/permissions/privapp-permissions-mediatek.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-mediatek.xml
 
 # Properties
@@ -145,11 +151,9 @@ PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
 
 # Symbols
-PRODUCT_PACKAGES += \
-    libshim_showlogo
+#PRODUCT_PACKAGES += \
+#    libshim_showlogo
 
 # Wi-Fi
 PRODUCT_PACKAGES += \
-    TetheringConfigOverlay \
-    wpa_supplicant.conf \
-    WifiOverlay
+    wpa_supplicant.conf
