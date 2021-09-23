@@ -87,6 +87,9 @@ on post-fs-data
 on boot
     # Set permission for Goodix FP
     chown system system /dev/goodix_fp
+
+    # OTG
+    write /sys/class/power_supply/usb/otg_switch 1
  
 on property:sys.boot_completed=1
     setprop vendor.oppo.biometrics.fingerprint.boot_completed 1
