@@ -726,4 +726,7 @@
     <!-- Screen off delay --> 
     <integer name="config_screen_off_delay">0</integer>
 
+    <!-- True if the firmware supports connected MAC randomization -->
+    <bool name="config_wifi_connected_mac_randomization_supported">true</bool>
+
 </resources>
