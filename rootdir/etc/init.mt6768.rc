@@ -1,6 +1,16 @@
 import /system/etc/init/init.ago.rc
 
 on early-init 
+    # Boost schedtune
+    write /dev/stune/schedtune.boost 50
+    write /dev/stune/schedtune.prefer_idle 1
+
+    # Boost I/O performance
+    write /sys/block/mmcblk0/queue/scheduler "noop"
+    write /sys/block/mmcblk0/queue/read_ahead_kb 2048
+    write /sys/block/mmcblk0/queue/nr_requests 256
+    write /sys/block/mmcblk0/queue/iostats 0
+
      start adbd
 
 on init
@@ -104,6 +114,10 @@ on property:sys.boot_completed=1
 
     exec - root -- /system/bin/sh -c "settings put global airplane_mode_on 0"
     exec - root -- /system/bin/sh -c "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false"
+
+    # Restore default I/O tuning
+    write /sys/block/mmcblk0/queue/scheduler "cfq"
+    write /sys/block/mmcblk0/queue/nr_requests 128
     
     # ZRAM
     swapon_all /vendor/fstab.enableswap
