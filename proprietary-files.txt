@@ -13,6 +13,20 @@ bin/kpoc_charger
 etc/init/kpoc_charger.rc
 lib/libshowlogo.so
 
+# MTK Engineering Mode
+-framework/mediatek-common.jar
+-framework/mediatek-framework.jar
+-framework/mediatek-telephony-base.jar
+-framework/mediatek-telephony-common.jar
+-framework/mediatek-ims-base.jar
+-framework/mediatek-ims-common.jar
+-framework/mediatek-ims-legacy.jar
+-framework/mediatek-ims-extension-plugin.jar
+-framework/mediatek-telecom-common.jar
+lib/libem_support_jni.so
+lib64/libem_support_jni.so
+-priv-app/EngineerMode/EngineerMode.apk
+
 #camera
 vendor/lib/libdpframework.so:product/vendor_overlay/29/lib/libdpframework.so|9b7726891d7432869742d02674cb367d770ed772
 vendor/lib64/libdpframework.so:product/vendor_overlay/29/lib64/libdpframework.so|48d574415db7f42a855841197a81039274edd20a
