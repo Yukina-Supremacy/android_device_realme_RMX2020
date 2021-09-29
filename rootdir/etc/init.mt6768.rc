@@ -1,8 +1,14 @@
 import /system/etc/init/init.ago.rc
 
 on early-init 
+    start adbd
+
+on init
+    mount none /vendor/lost+found /vendor/overlay bind
+    setprop sys.usb.ffs.aio_compat 1
+
     # Boost schedtune
-    write /dev/stune/schedtune.boost 50
+    write /dev/stune/schedtune.boost 100
     write /dev/stune/schedtune.prefer_idle 1
 
     # Boost I/O performance
@@ -10,12 +16,6 @@ on early-init
     write /sys/block/mmcblk0/queue/read_ahead_kb 2048
     write /sys/block/mmcblk0/queue/nr_requests 256
     write /sys/block/mmcblk0/queue/iostats 0
-
-     start adbd
-
-on init
-    mount none /vendor/lost+found /vendor/overlay bind
-    setprop sys.usb.ffs.aio_compat 1
 
     # Boot time fs tune
     write /sys/block/sda/queue/iostats 0
@@ -36,6 +36,9 @@ on init
     write /sys/block/dm-0/queue/read_ahead_kb 2048
     write /sys/block/dm-1/queue/read_ahead_kb 2048
     setprop persist.vendor.vilte_support 0
+
+    # Sched features
+    write /sys/kernel/debug/sched_features SCHED_HMP
 
     # Custom overrides that need to happen right on boot
     # Override vendor fstab
@@ -84,9 +87,9 @@ on post-fs-data
     chown system system /sys/class/power_supply/usb/otg_switch
     chmod 0666 /sys/class/power_supply/usb/otg_switch
 
-	# HBM
-	chown system system /sys/kernel/oppo_display/hbm
-	chmod 0666 /sys/kernel/oppo_display/hbm
+    # HBM
+    chown system system /sys/kernel/oppo_display/hbm
+    chmod 0666 /sys/kernel/oppo_display/hbm
 
     # Disable edge limit control interface
     write /proc/touchpanel/oppo_tp_limit_enable 0
@@ -119,11 +122,18 @@ on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler "cfq"
     write /sys/block/mmcblk0/queue/nr_requests 128
     
+    # Reset stune
+    write /dev/stune/schedtune.boost 0
+    write /dev/stune/schedtune.prefer_idle 0
+
     # ZRAM
     write /sys/block/zram0/comp_algorithm lz4
     write /sys/block/zram0/max_comp_streams 8
     write /proc/sys/vm/page-cluster 0
     swapon_all /vendor/fstab.enableswap
+
+    # Restore sched features
+    write /sys/kernel/debug/sched_features ENERGY_AWARE
 
     # Runtime fs tuning for runtime performance
     write /sys/block/sda/queue/read_ahead_kb 512
