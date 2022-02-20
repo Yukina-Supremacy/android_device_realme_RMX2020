@@ -28,7 +28,7 @@ $(call inherit-product, vendor/nusantara/config/common_full_phone.mk)
 PRODUCT_NAME := nad_RMX2020
 PRODUCT_DEVICE := RMX2020
 PRODUCT_BRAND := realme
-PRODUCT_MODEL := Realme G70 Series
+PRODUCT_MODEL := Realme Monet
 PRODUCT_MANUFACTURER := realme
 
 TARGET_BOOT_ANIMATION_RES := 720
