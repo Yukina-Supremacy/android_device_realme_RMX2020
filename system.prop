@@ -111,6 +111,24 @@ ro.surface_flinger.vsync_event_phase_offset_ns=2000000
 ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000
 debug.sf.enable_hwc_vds=0
 
+# Touch improvements
+touch.pressure.scale=0.001 
+persist.sys.ui.hw=1 
+touch.size.calibration=diameter 
+touch.size.scale=1 
+touch.size.bias=0 
+touch.size.isSummed=0 
+touch.pressure.scale=0.001 
+touch.orientation.calibration=none 
+touch.distance.calibration=none 
+touch.distance.scale=0 
+touch.coverage.calibration=box 
+touch.gestureMode=spots 
+MultitouchSettleInterval=1ms 
+MultitouchMinDistance=1px 
+TapInterval=1ms 
+TapSlop=1px
+
 # Zygote preforking
 persist.device_config.runtime_native.usap_pool_enabled=true
 
